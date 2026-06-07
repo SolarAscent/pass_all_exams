@@ -1,0 +1,36 @@
+course: 组织行为学
+exam_date: 2026-06-20
+mode: compact
+
+must_know:
+  - 霍桑实验
+  - 期望理论
+
+key_points:
+  - 价值观的定义及其两个属性
+  - 群体行为特征
+  - 公平理论与强化理论
+
+exam_types:
+  - 选择/判断
+  - 案例分析
+  - 简答题
+
+materials:
+  textbook: 罗宾斯《组织行为学》第18版
+  teacher_notes: 老师PPT和课堂划重点
+  past_papers: 无
+
+preferences:
+  language: 中文
+  evidence_mode: strict
+  token_mode: compact
+  example_domains:
+    - 大学社团
+    - 小组作业
+    - 实习
+  review_intervals:
+    - same_day
+    - next_day
+    - three_days
+    - final_day

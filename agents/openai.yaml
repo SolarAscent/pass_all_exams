@@ -1,0 +1,8 @@
+interface:
+  display_name: "Pass All Exams"
+  short_description: "Evidence-grounded exam prep skill"
+  brand_color: "#2563EB"
+  default_prompt: "Use $pass-all-exams to build a compact final-review plan for my course."
+
+policy:
+  allow_implicit_invocation: true
