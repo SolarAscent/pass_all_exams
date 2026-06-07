@@ -293,10 +293,6 @@ pass_all_exams/
 
 所有课程数据默认只保存在本机。这个 skill 不需要外部服务、数据库或账号。你的笔记、错题和复习卡会保存在 `~/.pass-all-exams/`，除非你主动移动或分享。
 
-## 致谢
-
-本项目借鉴了 [cram-engine](https://github.com/liuliu667/cram-engine) 的分阶段学习逻辑、[token-monitor](https://github.com/Javis603/token-monitor) 的 README 呈现方式，以及 [DeepSeek-Reasonix](https://github.com/esengine/DeepSeek-Reasonix) 的清晰安装与快速开始结构。
-
 ## License
 
 [MIT](LICENSE)

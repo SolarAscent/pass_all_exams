@@ -298,10 +298,6 @@ pass_all_exams/
 
 All course state is local by default. The skill does not require an external service, database, or account. Your notes, wrong answers, and review cards remain in `~/.pass-all-exams/` unless you explicitly move or share them.
 
-## Acknowledgments
-
-This project was shaped by the staged learning logic of [cram-engine](https://github.com/liuliu667/cram-engine), the README presentation style of [token-monitor](https://github.com/Javis603/token-monitor), and the crisp setup flow of [DeepSeek-Reasonix](https://github.com/esengine/DeepSeek-Reasonix).
-
 ## License
 
 [MIT](LICENSE)
