@@ -56,6 +56,7 @@ def main() -> None:
         "references/platforms.md",
         "scripts/examctl.py",
         "scripts/install.sh",
+        "scripts/package_skill.py",
         "agents/openai.yaml",
     ]
     for rel in required:

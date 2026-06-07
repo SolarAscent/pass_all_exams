@@ -55,6 +55,14 @@ python3 scripts/examctl.py status --course "组织行为学"
 python3 scripts/examctl.py summary --course "组织行为学"
 ```
 
+## Package
+
+Build an uploadable `.skill` archive:
+
+```bash
+python3 scripts/package_skill.py
+```
+
 ## Why This Exists
 
 Raw AI chat often turns review into long notes. This skill keeps the agent in a loop that students actually need before exams:
