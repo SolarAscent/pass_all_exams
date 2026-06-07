@@ -6,13 +6,19 @@
   <img src="docs/hero.svg" alt="Pass All Exams" width="760"/>
 </p>
 
+<h1 align="center">Pass all exams</h1>
+
+<p align="center">
+  <em>期末周了，还没复习？不用慌张，现在是 AI 时代，用 skill 来让你的复习效率翻倍。</em>
+</p>
+
 <p align="center">
   <strong>面向 Codex、OpenClaw、OpenCode 的证据化考试复习 Skill。</strong>
 </p>
 
 <p align="center">
-  把课堂笔记、考纲、往年题、老师重点和零散知识点，变成一个更省 token 的复习闭环：
-  拆考点、讲一小点、马上检索、修错、安排复盘。
+  把课堂笔记、考纲、往年题和老师重点整理成一套可执行的复习流程：
+  先判断会考什么，再逐点讲清、立刻检索、修正错题、安排复盘。
 </p>
 
 <p align="center">
@@ -26,25 +32,40 @@
 
 <br/>
 
-## 这个项目做什么
+## 这个项目解决什么问题
 
-Pass All Exams 不是让 AI 一次性生成一大坨复习资料，而是把复习压成学生考前真正需要的循环：
+Pass All Exams 不是“让 AI 帮你生成一份超长复习资料”。它更像一个考前复习教练：每次只处理一个高价值考点，讲完马上测，错了立刻定位原因，再把需要回看的内容排进复盘队列。
+
+默认流程很小，也因此更稳：
 
 ```text
-一门课 -> 一个高价值考点 -> 一次短讲解 -> 一道检索题 -> 一次修错或复盘卡
+一门课 -> 一个高价值考点 -> 一段短讲解 -> 一道检索题 -> 一次修正或一张复盘卡
 ```
 
-它保留了 `cram-engine` 里很有价值的部分：分阶段复习、控制认知负荷、主动回忆、错题补漏。然后在此基础上增加了资料依据标注、机器可读进度、间隔复习卡、理工/编程/语言类课程适配，以及更省 token 的默认流程。
+这个项目保留了 `cram-engine` 中最有效的部分：分阶段推进、控制认知负荷、主动回忆、错题补漏。在此基础上，它增加了资料依据标注、机器可读进度、间隔复习卡、理工/编程/语言类课程支持，以及更省 token 的默认模式。
 
-## 为什么不一样
+## 如果你还不了解 Agent Skill
 
-| 普通 AI 复习的问题 | Pass All Exams 的做法 |
+Pass All Exams 运行在支持 `SKILL.md` 的智能体工具里。简单说，Skill 就是一份可被智能体读取的流程说明，能让它在某个具体任务上表现得更稳定、更专业。
+
+你不需要理解这些工具的内部实现，但需要先安装一个兼容的智能体。
+
+| 工具 | 简单说明 | 官网 |
+|---|---|---|
+| Codex | OpenAI 的编程智能体，可在 ChatGPT 和本地开发流程中使用。 | [openai.com/codex](https://openai.com/codex/) |
+| Claude Code | Anthropic 的命令行编程智能体。本项目的复习流程可迁移，但安装脚本目前主要适配 Codex、OpenClaw、OpenCode。 | [Claude Code Docs](https://code.claude.com/docs/en/overview) |
+| OpenClaw | 支持 Skill 机制的开放智能体平台，Skill 以 `SKILL.md` 为核心。 | [docs.openclaw.ai](https://docs.openclaw.ai/) |
+| OpenCode | 终端里的编程智能体，支持从项目目录或全局目录加载 Agent Skills。 | [opencode.ai/docs](https://opencode.ai/docs/) |
+
+## 为什么需要它
+
+| 常见复习问题 | Pass All Exams 的处理方式 |
 |---|---|
-| 生成长笔记，但不检查你会不会。 | 每讲一个点，都跟一个检索练习。 |
-| 考点预测容易像老师确认过一样。 | 明确区分 `资料依据`、`合理推断`、`待确认`。 |
-| 聊天历史越来越贵，越复习越费 token。 | 进度写入 `state.json`、`errors.jsonl`、`cards.jsonl`。 |
-| 只适合文科定性课。 | 增加定量题、编程题、语言题和记忆密集型课程模式。 |
-| 错了以后只是原话再讲一遍。 | 先诊断错误类型，再换一种表示方式重讲并重测。 |
+| AI 写了很多内容，但你并不知道自己会不会。 | 每讲完一个知识点，都必须接一次检索练习。 |
+| “可能会考”听起来像“老师说会考”。 | 明确区分 `资料依据`、`合理推断`、`待确认`。 |
+| 聊天记录越堆越长，后面越来越费 token。 | 进度写入 `state.json`、`errors.jsonl`、`cards.jsonl`，需要时读取摘要。 |
+| 很多速成工具只适合文科论述课。 | 增加定量题、编程题、语言题和记忆密集型课程的复习模式。 |
+| 错题只是被原话重讲一遍。 | 先判断错因，再换一种讲法，并从新角度重测。 |
 
 ## 安装
 
@@ -93,17 +114,17 @@ git clone https://github.com/SolarAscent/pass_all_exams.git .opencode/skill/pass
 https://github.com/SolarAscent/pass_all_exams/releases/download/v0.1.0/pass-all-exams.skill
 ```
 
-适合支持上传 skill 压缩包的客户端或网页 UI。
+如果你的客户端或网页端支持上传 skill 压缩包，可以直接使用这个文件。
 
 ## 快速开始
 
-安装后直接说：
+安装后，直接说：
 
 ```text
 /exam 组织行为学 start
 ```
 
-或者把信息一次性说清楚：
+也可以一次性把已知信息说清楚：
 
 ```text
 帮我用 pass-all-exams 复习组织行为学。
@@ -111,7 +132,7 @@ https://github.com/SolarAscent/pass_all_exams/releases/download/v0.1.0/pass-all-
 老师强调必考：霍桑实验、期望理论。我会继续粘贴课堂笔记。
 ```
 
-英文课程也可以：
+英文课程同样可以：
 
 ```text
 Use pass-all-exams to help me review Organizational Behavior.
@@ -123,16 +144,16 @@ My must-know topics are Hawthorne studies and expectancy theory.
 
 ```text
 建档
-  收集课程、考试日期、题型、资料、必考点
+  收集课程名、考试时间、题型、资料、必考点
 
 拆解
   把资料拆成可考试的小知识点，并标注来源可信度
 
 讲授
-  一次只讲一个点：具体例子开头，最多三块，再让你自己总结
+  一次只讲一个点：先给具体场景，最多拆成三块，再让你自己总结
 
 检题
-  按真实题型出题：选择、案例、计算、代码 trace、简答等
+  按真实题型练习：选择、案例、计算、代码 trace、简答等
 
 补漏
   判断错因，换讲法，从新角度重测
@@ -143,27 +164,27 @@ My must-know topics are Hawthorne studies and expectancy theory.
 
 ## 证据约束
 
-每次讲解、押题或批改时，都应该把来源状态说清楚：
+每次讲解、预测考法或批改答案时，都要把来源状态说清楚：
 
 ```text
 资料依据:
 - 直接来自你的笔记、考纲、老师原话、往年题或粘贴资料。
 
 合理推断:
-- 基于通用课程知识、常见考试方式做出的复习推断。
+- 基于课程常识和常见考试方式做出的复习判断。
 
 待确认:
-- 需要你再看老师要求、教材版本或本校考试范围的内容。
+- 需要你再核对老师要求、教材版本或本校考试范围的内容。
 ```
 
-如果你没有提供任何资料，它会按通用知识帮你复习，但不能假装知道你老师到底考什么。
+如果你没有提供任何资料，它可以按通用知识带你复习，但不能假装知道你老师真正会考什么。
 
 ## 命令
 
 | 命令 | 作用 |
 |---|---|
 | `/exam <课程> start` | 创建或刷新课程复习计划。 |
-| `/cram <课程> start` | 兼容 cram-style 使用习惯。 |
+| `/cram <课程> start` | 兼容 cram-style 的使用习惯。 |
 | `/exam <课程> resume` | 从保存进度继续。 |
 | `/exam <课程> drill` | 根据薄弱点和到期复习卡出题。 |
 | `/exam <课程> retry <知识点>` | 对某个薄弱点重讲、重测并更新记录。 |
@@ -171,7 +192,7 @@ My must-know topics are Hawthorne studies and expectancy theory.
 
 ## 本地状态
 
-课程数据默认保存在本地：
+课程数据默认保存在本机：
 
 ```text
 ~/.pass-all-exams/courses/<course-slug>/
@@ -183,7 +204,7 @@ My must-know topics are Hawthorne studies and expectancy theory.
 |---|---|
 | `course.yaml` | 课程配置：题型、资料、必考点、偏好。 |
 | `state.json` | 当前阶段和知识点状态。 |
-| `errors.jsonl` | 错题和诊断历史。 |
+| `errors.jsonl` | 错题和诊断记录。 |
 | `cards.jsonl` | 检索复习卡和到期日期。 |
 | `sessions.jsonl` | 可选会话日志。 |
 
@@ -217,11 +238,11 @@ python3 scripts/examctl.py record-error \
 
 | 模式 | 适合场景 | 行为 |
 |---|---|---|
-| `compact` | 大多数考前突击 | 一个点、一个例子、一题检索、一次纠错。 |
+| `compact` | 大多数考前突击 | 一个知识点、一个例子、一题检索、一次纠错。 |
 | `standard` | 正常周复习 | 多一个例子，并关联一个已学知识点。 |
 | `deep` | 难课或高风险考试 | 增加推导、边界条件和混合练习。 |
 
-默认是 `compact`。详细阶段规则放在 `references/`，需要时才加载，避免每次都把长提示塞进上下文。
+默认使用 `compact`。详细阶段规则放在 `references/`，只有需要时才加载，避免每次都把长提示塞进上下文。
 
 ## 适合哪些课
 
@@ -270,7 +291,7 @@ pass_all_exams/
 
 ## 隐私
 
-默认所有课程数据都存在本机。这个 skill 不需要外部服务、数据库或账号。你的笔记、错题、复习卡会保存在 `~/.pass-all-exams/`，除非你主动移动或分享。
+所有课程数据默认只保存在本机。这个 skill 不需要外部服务、数据库或账号。你的笔记、错题和复习卡会保存在 `~/.pass-all-exams/`，除非你主动移动或分享。
 
 ## 致谢
 

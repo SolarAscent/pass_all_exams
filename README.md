@@ -6,6 +6,12 @@
   <img src="docs/hero.svg" alt="Pass All Exams" width="760"/>
 </p>
 
+<h1 align="center">Pass all exams</h1>
+
+<p align="center">
+  <em>Finals week and still not ready? Don't panic. This is the AI era: use a skill to make every review session count twice.</em>
+</p>
+
 <p align="center">
   <strong>Evidence-grounded exam prep for Codex, OpenClaw, and OpenCode.</strong>
 </p>
@@ -37,6 +43,17 @@ The default session is deliberately small:
 ```text
 one course -> one high-yield point -> one explanation -> one retrieval question -> one repair or review card
 ```
+
+## New to Agent Skills?
+
+Pass All Exams runs inside agent tools that can load a `SKILL.md` folder and follow reusable workflows. You do not need to understand their internals, but you do need one compatible agent installed.
+
+| Tool | What it is | Official link |
+|---|---|---|
+| Codex | OpenAI's coding agent, available through ChatGPT and local developer workflows. | [openai.com/codex](https://openai.com/codex/) |
+| Claude Code | Anthropic's agentic coding assistant. The review workflow is portable, but this repo's installer targets Codex, OpenClaw, and OpenCode. | [Claude Code docs](https://code.claude.com/docs/en/overview) |
+| OpenClaw | An open agent platform with a skill system built around `SKILL.md`. | [docs.openclaw.ai](https://docs.openclaw.ai/) |
+| OpenCode | A terminal coding agent that discovers project and global Agent Skills. | [opencode.ai/docs](https://opencode.ai/docs/) |
 
 ## Why It Is Different
 
