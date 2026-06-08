@@ -130,7 +130,7 @@ def convert_one(args, source: str, markitdown) -> dict:
         return {**previous[-1], "status": "cached"}
 
     result = markitdown.convert(source_id, keep_data_uris=args.keep_data_uris)
-    markdown = getattr(result, "markdown", None) or getattr(result, "text_content", "")
+    markdown = result.text_content
     if not markdown.strip():
         raise ValueError(f"Conversion produced empty Markdown: {source}")
 

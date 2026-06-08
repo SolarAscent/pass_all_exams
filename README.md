@@ -68,7 +68,28 @@ Pass All Exams runs inside agent tools that can load a `SKILL.md` folder and fol
 
 ## Install
 
-Choose the install path for your agent. The repository name is `pass_all_exams`; the skill name inside the agent is `pass-all-exams`.
+The repository name is `pass_all_exams`; the skill name inside the agent is `pass-all-exams`.
+
+### Option 0: One-Click Install (Recommended)
+
+This single command clones the project, installs MarkItDown for file conversion, and copies the skill into your agent's directory:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh | bash -s -- <agent>
+```
+
+Replace `<agent>` with your agent key:
+
+| Agent | Command |
+|---|---|
+| Claude Code, global | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- claude` |
+| Claude Code, current project only | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- claude-project` |
+| Codex | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- codex` |
+| OpenClaw | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- openclaw` |
+| OpenCode, global | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- opencode` |
+| OpenCode, current project only | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- opencode-project` |
+
+Add `--skip-deps` before the agent name if you prefer to install Python dependencies manually later.
 
 ### Option 1: Install from Git
 
@@ -343,6 +364,10 @@ pass_all_exams/
 ## Privacy
 
 All course state is local by default. The skill does not require an external service, database, or account. Your notes, wrong answers, and review cards remain in `~/.pass-all-exams/` unless you explicitly move or share them.
+
+## Acknowledgments
+
+This project uses [Microsoft MarkItDown](https://github.com/microsoft/markitdown) to convert uploaded course materials (PDF, Word, PowerPoint, Excel, images, audio, HTML, CSV, JSON, XML, ZIP, EPub, and more) into Markdown for the study pipeline. MarkItDown is developed and maintained by Microsoft.
 
 ## License
 

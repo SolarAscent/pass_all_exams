@@ -72,6 +72,27 @@ Pass All Exams 运行在支持 `SKILL.md` 的智能体工具里。简单说，Sk
 
 按你使用的智能体选择安装方式。GitHub 仓库名是 `pass_all_exams`，安装后的 skill 名是 `pass-all-exams`。
 
+### 方式零：一键安装（最推荐）
+
+一行命令完成克隆项目、安装 MarkItDown 文件转换依赖、复制 skill 到智能体目录：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh | bash -s -- <agent>
+```
+
+把 `<agent>` 换成你的智能体：
+
+| 智能体 | 命令 |
+|---|---|
+| Claude Code，全局 | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- claude` |
+| Claude Code，仅当前项目 | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- claude-project` |
+| Codex | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- codex` |
+| OpenClaw | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- openclaw` |
+| OpenCode，全局 | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- opencode` |
+| OpenCode，仅当前项目 | `curl -fsSL https://raw.githubusercontent.com/SolarAscent/pass_all_exams/main/scripts/quick-install.sh \| bash -s -- opencode-project` |
+
+如果想跳过自动安装 Python 依赖，在智能体名称前加 `--skip-deps`。
+
 ### 方式一：从 Git 安装
 
 ```bash
@@ -338,6 +359,10 @@ pass_all_exams/
 ## 隐私
 
 所有课程数据默认只保存在本机。这个 skill 不需要外部服务、数据库或账号。你的笔记、错题和复习卡会保存在 `~/.pass-all-exams/`，除非你主动移动或分享。
+
+## 致谢
+
+本项目使用 [Microsoft MarkItDown](https://github.com/microsoft/markitdown) 将上传的课程资料（PDF、Word、PowerPoint、Excel、图片、音频、HTML、CSV、JSON、XML、ZIP、EPub 等格式）转换为 Markdown，供复习流程使用。MarkItDown 由 Microsoft 开发并维护。
 
 ## License
 

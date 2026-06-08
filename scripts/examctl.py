@@ -75,6 +75,7 @@ def cmd_init(args) -> None:
             "errors": 0,
             "stubborn": 0,
             "cards": 0,
+            "materials": 0,
         },
         "points": {},
     }
