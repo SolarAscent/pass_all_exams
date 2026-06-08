@@ -22,7 +22,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/SolarAscent/pass_all_exams/releases/tag/v0.1.0"><img src="https://img.shields.io/github/v/release/SolarAscent/pass_all_exams?style=flat-square&label=release&labelColor=111827&color=2563EB" alt="Latest release"/></a>
+  <a href="https://github.com/SolarAscent/pass_all_exams/releases/tag/v2.0.0"><img src="https://img.shields.io/github/v/release/SolarAscent/pass_all_exams?style=flat-square&label=release&labelColor=111827&color=2563EB" alt="Latest release"/></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-16A34A?style=flat-square&labelColor=111827" alt="MIT license"/></a>
   <img src="https://img.shields.io/badge/Codex-supported-2563EB?style=flat-square&labelColor=111827" alt="Codex supported"/>
   <img src="https://img.shields.io/badge/Claude%20Code-supported-D97706?style=flat-square&labelColor=111827" alt="Claude Code supported"/>
@@ -37,7 +37,7 @@
 
 Pass All Exams is an Agent Skill for students who need a practical review system, not another long pile of notes.
 
-Its architecture is built around six small stages: intake, mapping, teaching, drilling, repairing, and review scheduling. `SKILL.md` stays light so the agent can load quickly; detailed stage rules live in `references/`; deterministic local state is handled by `scripts/examctl.py`; install and packaging helpers keep the same workflow portable across supported agents.
+Its architecture is built around seven small pieces: file ingestion, intake, mapping, teaching, drilling, repairing, and review scheduling. Microsoft [MarkItDown](https://github.com/microsoft/markitdown) converts uploaded PDFs, Word documents, PowerPoint decks, spreadsheets, images, audio, HTML, CSV/JSON/XML, ZIP files, EPubs, and other supported formats into Markdown before the study loop starts. `SKILL.md` stays light so the agent can load quickly; detailed stage rules live in `references/`; deterministic local state is handled by `scripts/examctl.py`; material ingestion is handled by `scripts/ingest_materials.py`; install and packaging helpers keep the same workflow portable across supported agents.
 
 The default session is deliberately small:
 
@@ -75,6 +75,12 @@ Choose the install path for your agent. The repository name is `pass_all_exams`;
 ```bash
 git clone https://github.com/SolarAscent/pass_all_exams.git
 cd pass_all_exams
+```
+
+Install the file-conversion dependency if you want to use uploaded files:
+
+```bash
+python3 -m pip install -r requirements-markitdown.txt
 ```
 
 Then install for your agent:
@@ -120,7 +126,7 @@ git clone https://github.com/SolarAscent/pass_all_exams.git .opencode/skill/pass
 Download the release asset:
 
 ```text
-https://github.com/SolarAscent/pass_all_exams/releases/download/v0.1.0/pass-all-exams.skill
+https://github.com/SolarAscent/pass_all_exams/releases/download/v2.0.0/pass-all-exams.skill
 ```
 
 Use this when your agent or UI supports uploading skill archives.
@@ -154,11 +160,26 @@ or:
 老师强调必考：霍桑实验、期望理论。我会继续粘贴课堂笔记。
 ```
 
+If you have files, ingest them first:
+
+```bash
+python3 scripts/ingest_materials.py \
+  --course "Organizational Behavior" \
+  ~/Downloads/syllabus.pdf \
+  ~/Downloads/week-1-slides.pptx \
+  ~/Downloads/review-notes.docx
+```
+
+Converted Markdown is saved under the course's local `materials/` directory and reused by later stages.
+
 ## The Review Loop
 
 ```text
 Intake
   collect course, exam date, question types, materials, must-know points
+
+Ingest
+  convert uploaded files to Markdown with Microsoft MarkItDown and cache by SHA-256
 
 Map
   split materials into exam-sized points and mark source confidence
@@ -218,6 +239,8 @@ Inside each course:
 |---|---|
 | `course.yaml` | Course profile: exam types, materials, must-know points, preferences. |
 | `state.json` | Current stage and point-level status. |
+| `materials/` | MarkItDown-converted Markdown files. |
+| `materials.jsonl` | Material index: source path, SHA-256, output path, title, byte count, status. |
 | `errors.jsonl` | Wrong answers and diagnosis history. |
 | `cards.jsonl` | Retrieval cards and due dates. |
 | `sessions.jsonl` | Optional session log. |
@@ -229,6 +252,16 @@ python3 scripts/examctl.py init --course "Organizational Behavior"
 python3 scripts/examctl.py status --course "Organizational Behavior"
 python3 scripts/examctl.py summary --course "Organizational Behavior"
 ```
+
+Convert uploaded or downloaded course files:
+
+```bash
+python3 scripts/ingest_materials.py --course "Organizational Behavior" ~/Downloads/syllabus.pdf
+```
+
+By default, ingestion accepts local files only. Trusted URLs require `--allow-url` because MarkItDown reads with the privileges of the current process.
+
+Audio transcription may require system audio tooling such as `ffmpeg`; ordinary PDF/Office/text conversion does not.
 
 Example records:
 
@@ -280,16 +313,19 @@ Validate the package layout:
 
 ```bash
 python3 scripts/validate_skill.py
-python3 -m py_compile scripts/examctl.py scripts/validate_skill.py scripts/package_skill.py
+python3 -m py_compile scripts/examctl.py scripts/ingest_materials.py scripts/validate_skill.py scripts/package_skill.py
 ```
 
 ## Repository Layout
 
 ```text
 pass_all_exams/
+├── CHANGELOG.md
+├── PROJECT_CHECK.md
 ├── SKILL.md                    # agent-facing entry point
 ├── agents/openai.yaml          # Codex UI metadata
 ├── configs/example.yaml        # sample course profile
+├── requirements-markitdown.txt # Microsoft MarkItDown dependency set
 ├── references/
 │   ├── pipeline.md             # detailed review workflow
 │   ├── prompt-patterns.md      # reusable prompt shapes
@@ -297,6 +333,7 @@ pass_all_exams/
 │   └── comparison.md           # design notes from related projects
 ├── scripts/
 │   ├── examctl.py              # deterministic course state helper
+│   ├── ingest_materials.py     # MarkItDown material ingestion helper
 │   ├── install.sh              # cross-agent install helper
 │   ├── package_skill.py        # .skill archive builder
 │   └── validate_skill.py       # portable package validator

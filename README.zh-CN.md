@@ -22,7 +22,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/SolarAscent/pass_all_exams/releases/tag/v0.1.0"><img src="https://img.shields.io/github/v/release/SolarAscent/pass_all_exams?style=flat-square&label=release&labelColor=111827&color=2563EB" alt="Latest release"/></a>
+  <a href="https://github.com/SolarAscent/pass_all_exams/releases/tag/v2.0.0"><img src="https://img.shields.io/github/v/release/SolarAscent/pass_all_exams?style=flat-square&label=release&labelColor=111827&color=2563EB" alt="Latest release"/></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-16A34A?style=flat-square&labelColor=111827" alt="MIT license"/></a>
   <img src="https://img.shields.io/badge/Codex-supported-2563EB?style=flat-square&labelColor=111827" alt="Codex supported"/>
   <img src="https://img.shields.io/badge/Claude%20Code-supported-D97706?style=flat-square&labelColor=111827" alt="Claude Code supported"/>
@@ -43,7 +43,7 @@ Pass All Exams 不是“让 AI 帮你生成一份超长复习资料”。它更�
 一门课 -> 一个高价值考点 -> 一段短讲解 -> 一道检索题 -> 一次修正或一张复盘卡
 ```
 
-它的架构分成六个小阶段：建档、拆解、讲授、检题、补漏、复盘。`SKILL.md` 只保留必要入口，让智能体快速加载；详细阶段规则放在 `references/`；本地进度由 `scripts/examctl.py` 管理；安装和打包脚本负责把同一套流程分发到不同智能体里。
+它的架构分成七个部分：文件摄入、建档、拆解、讲授、检题、补漏、复盘。用户上传 PDF、Word、PPT、Excel、图片、音频、HTML、CSV/JSON/XML、ZIP、EPub 等资料后，先由 Microsoft [MarkItDown](https://github.com/microsoft/markitdown) 转成 Markdown，再进入复习流程。`SKILL.md` 只保留必要入口，让智能体快速加载；详细阶段规则放在 `references/`；本地进度由 `scripts/examctl.py` 管理；文件摄入由 `scripts/ingest_materials.py` 处理；安装和打包脚本负责把同一套流程分发到不同智能体里。
 
 ## 如果你还不了解 Agent Skill
 
@@ -77,6 +77,12 @@ Pass All Exams 运行在支持 `SKILL.md` 的智能体工具里。简单说，Sk
 ```bash
 git clone https://github.com/SolarAscent/pass_all_exams.git
 cd pass_all_exams
+```
+
+如果要处理上传文件，先安装文件转换依赖：
+
+```bash
+python3 -m pip install -r requirements-markitdown.txt
 ```
 
 然后选择你的智能体：
@@ -120,7 +126,7 @@ git clone https://github.com/SolarAscent/pass_all_exams.git .opencode/skill/pass
 下载 release 附件：
 
 ```text
-https://github.com/SolarAscent/pass_all_exams/releases/download/v0.1.0/pass-all-exams.skill
+https://github.com/SolarAscent/pass_all_exams/releases/download/v2.0.0/pass-all-exams.skill
 ```
 
 如果你的客户端或网页端支持上传 skill 压缩包，可以直接使用这个文件。
@@ -149,11 +155,26 @@ The exam has multiple choice, short answer, and case analysis.
 My must-know topics are Hawthorne studies and expectancy theory.
 ```
 
+如果你有课程文件，先摄入资料：
+
+```bash
+python3 scripts/ingest_materials.py \
+  --course "组织行为学" \
+  ~/Downloads/考纲.pdf \
+  ~/Downloads/第1周课件.pptx \
+  ~/Downloads/复习笔记.docx
+```
+
+转换后的 Markdown 会保存在该课程的本地 `materials/` 目录中，后续拆解和讲解都会复用这些文件。
+
 ## 复习流程
 
 ```text
 建档
   收集课程名、考试时间、题型、资料、必考点
+
+摄入
+  使用 Microsoft MarkItDown 将上传文件转成 Markdown，并按 SHA-256 做缓存
 
 拆解
   把资料拆成可考试的小知识点，并标注来源可信度
@@ -213,6 +234,8 @@ My must-know topics are Hawthorne studies and expectancy theory.
 |---|---|
 | `course.yaml` | 课程配置：题型、资料、必考点、偏好。 |
 | `state.json` | 当前阶段和知识点状态。 |
+| `materials/` | MarkItDown 转换后的 Markdown 资料。 |
+| `materials.jsonl` | 资料索引：来源路径、SHA-256、输出路径、标题、字节数、状态。 |
 | `errors.jsonl` | 错题和诊断记录。 |
 | `cards.jsonl` | 检索复习卡和到期日期。 |
 | `sessions.jsonl` | 可选会话日志。 |
@@ -224,6 +247,16 @@ python3 scripts/examctl.py init --course "组织行为学"
 python3 scripts/examctl.py status --course "组织行为学"
 python3 scripts/examctl.py summary --course "组织行为学"
 ```
+
+转换上传或下载的课程文件：
+
+```bash
+python3 scripts/ingest_materials.py --course "组织行为学" ~/Downloads/考纲.pdf
+```
+
+默认只处理本地文件。可信 URL 需要显式加 `--allow-url`，因为 MarkItDown 会以当前进程权限读取资源。
+
+音频转写可能需要系统安装 `ffmpeg`；普通 PDF、Office、文本资料转换不需要。
 
 记录一个知识点和一次错题：
 
@@ -275,16 +308,19 @@ python3 scripts/package_skill.py
 
 ```bash
 python3 scripts/validate_skill.py
-python3 -m py_compile scripts/examctl.py scripts/validate_skill.py scripts/package_skill.py
+python3 -m py_compile scripts/examctl.py scripts/ingest_materials.py scripts/validate_skill.py scripts/package_skill.py
 ```
 
 ## 仓库结构
 
 ```text
 pass_all_exams/
+├── CHANGELOG.md
+├── PROJECT_CHECK.md
 ├── SKILL.md                    # 智能体读取的入口
 ├── agents/openai.yaml          # Codex UI 元数据
 ├── configs/example.yaml        # 示例课程配置
+├── requirements-markitdown.txt # Microsoft MarkItDown 依赖
 ├── references/
 │   ├── pipeline.md             # 详细复习流程
 │   ├── prompt-patterns.md      # 可复用提示模板
@@ -292,6 +328,7 @@ pass_all_exams/
 │   └── comparison.md           # 设计对比说明
 ├── scripts/
 │   ├── examctl.py              # 本地进度管理
+│   ├── ingest_materials.py     # MarkItDown 文件摄入脚本
 │   ├── install.sh              # 跨平台安装脚本
 │   ├── package_skill.py        # .skill 打包脚本
 │   └── validate_skill.py       # 结构校验脚本

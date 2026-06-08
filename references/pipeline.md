@@ -17,6 +17,7 @@ Additional design choices:
 
 - evidence labels reduce hallucination and make weak sourcing visible
 - machine-readable `state.json`, `cards.jsonl`, and `errors.jsonl`
+- MarkItDown ingestion normalizes uploaded course files into Markdown before mapping
 - token modes: compact, standard, deep
 - supports qualitative, quantitative, code, language, and memorization-heavy courses
 - spaced review queue instead of only "try tomorrow"
@@ -48,6 +49,24 @@ Create state:
 ```bash
 python3 scripts/examctl.py init --course "<course>"
 ```
+
+If the user provides files, convert them before Stage 1:
+
+```bash
+python3 scripts/ingest_materials.py --course "<course>" "<path/to/file.pdf>" "<path/to/slides.pptx>"
+```
+
+Use converted Markdown under `~/.pass-all-exams/courses/<slug>/materials/` as the source for mapping. The ingestion index is `materials.jsonl`.
+
+MarkItDown requires:
+
+```bash
+python3 -m pip install -r requirements-markitdown.txt
+```
+
+Prefer local files. Only use `--allow-url` for trusted URLs because MarkItDown performs I/O with the privileges of the current process.
+
+Audio transcription may require system audio tooling such as `ffmpeg`; do not treat an audio warning as a failure for ordinary PDF, Office, or text files.
 
 ## Stage 1: Map
 

@@ -55,9 +55,13 @@ def main() -> None:
         "references/prompt-patterns.md",
         "references/platforms.md",
         "scripts/examctl.py",
+        "scripts/ingest_materials.py",
         "scripts/install.sh",
         "scripts/package_skill.py",
         "agents/openai.yaml",
+        "requirements-markitdown.txt",
+        "CHANGELOG.md",
+        "PROJECT_CHECK.md",
     ]
     for rel in required:
         if not (ROOT / rel).exists():

@@ -1,7 +1,7 @@
 ---
 name: pass-all-exams
-description: Use this skill for Chinese or bilingual exam prep, final review, cram sessions, course revision, mock tests, wrong-answer remediation, spaced review, or commands like /exam, /cram, pass all exams. It helps students turn course materials, syllabi, teacher重点, past papers, and exam types into a low-token, evidence-grounded study loop for Codex, Claude Code, OpenClaw, and OpenCode.
-version: 0.1.0
+description: Use this skill for Chinese or bilingual exam prep, final review, file-based course material ingestion, uploaded PDFs/Word/PPT/Excel conversion, cram sessions, course revision, mock tests, wrong-answer remediation, spaced review, or commands like /exam, /cram, pass all exams. It helps students turn course materials, syllabi, teacher重点, past papers, and exam types into a low-token, evidence-grounded study loop for Codex, Claude Code, OpenClaw, and OpenCode.
+version: 2.0.0
 license: MIT
 compatibility: codex, claude-code, openclaw, opencode
 metadata:
@@ -15,7 +15,7 @@ metadata:
 
 # Pass All Exams
 
-Exam-prep skill for short, high-yield study sessions. It combines evidence labels, machine-readable progress, spaced review, and cross-agent installation.
+Exam-prep skill for short, high-yield study sessions. It combines MarkItDown material ingestion, evidence labels, machine-readable progress, spaced review, and cross-agent installation.
 
 ## Commands
 
@@ -31,7 +31,7 @@ If the course is new, collect only the missing fields:
 
 1. Course name and exam date, if known.
 2. Exam type: closed-book/open-book, question formats, scoring hints.
-3. Materials: pasted notes, file paths, syllabus, teacher重点, past papers.
+3. Materials: pasted notes, uploaded file paths, syllabus, teacher重点, past papers.
 4. Knowledge points, marking must-know items separately.
 5. Target mode: `compact`, `standard`, or `deep`.
 
@@ -41,13 +41,21 @@ Create local state with:
 python3 scripts/examctl.py init --course "<course>"
 ```
 
+When the user provides local files, convert them before mapping:
+
+```bash
+python3 scripts/ingest_materials.py --course "<course>" "<file1>" "<file2>"
+```
+
 Use `~/.pass-all-exams/courses/<slug>/` for state. Never overwrite a student's notes or progress without asking.
+
+Converted materials are stored under `~/.pass-all-exams/courses/<slug>/materials/` and indexed in `materials.jsonl`. Read those Markdown files for the Map stage instead of reparsing the original uploads.
 
 ## Core Loop
 
 Run one narrow stage at a time:
 
-1. **Map**: split materials into exam-sized points and mark source confidence.
+1. **Map**: split converted Markdown materials into exam-sized points and mark source confidence.
 2. **Teach**: explain one point with concrete-first, <=3 chunks, and one self-generation prompt.
 3. **Drill**: test by actual exam type. Mix active recall, interleaving, and traps.
 4. **Diagnose**: classify errors as confusion, missing term, logic reversal, or transfer failure.

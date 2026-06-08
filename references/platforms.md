@@ -2,6 +2,12 @@
 
 Pass All Exams is a plain Agent Skill folder with `SKILL.md` at the root.
 
+For uploaded file conversion, install Microsoft MarkItDown:
+
+```bash
+python3 -m pip install -r requirements-markitdown.txt
+```
+
 ## Codex
 
 Install globally:

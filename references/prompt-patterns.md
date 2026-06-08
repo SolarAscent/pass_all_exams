@@ -20,6 +20,7 @@ Rules:
 - Empty sections may be omitted except `待确认` when a claim matters for exam prediction.
 - Never present inferred exam scope as teacher-confirmed.
 - If materials conflict, quote the labels the student supplied, then ask which source is authoritative.
+- When files were ingested through MarkItDown, cite the converted material filename and section heading when possible.
 
 ## Compact Teaching Pattern
 
