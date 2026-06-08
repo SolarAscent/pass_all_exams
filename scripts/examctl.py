@@ -44,10 +44,8 @@ def append_jsonl(path: Path, item) -> None:
 
 def iter_jsonl(path: Path):
     if not path.exists():
-        return
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            yield json.loads(line)
+        return iter(())
+    return (json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip())
 
 
 def ensure_course(course: str, root: Path = ROOT) -> Path:
@@ -109,9 +107,9 @@ def cmd_record_point(args) -> None:
     )
     points[args.point] = current
     state["updated_at"] = today
-    state.setdefault("counts", {})
-    state["counts"]["points_total"] = len(points)
-    state["counts"]["points_done"] = sum(1 for item in points.values() if item.get("status") in {"taught", "corrected", "mastered"})
+    counts = state.setdefault("counts", {})
+    counts["points_total"] = len(points)
+    counts["points_done"] = sum(1 for item in points.values() if item.get("status") in {"taught", "corrected", "mastered"})
     write_json(state_path, state)
     print(json.dumps(current, ensure_ascii=False))
 
@@ -129,10 +127,10 @@ def cmd_record_error(args) -> None:
     append_jsonl(path / "errors.jsonl", item)
     state_path = path / "state.json"
     state = read_json(state_path, {})
-    errors = list(iter_jsonl(path / "errors.jsonl") or [])
-    state.setdefault("counts", {})
-    state["counts"]["errors"] = len(errors)
-    state["counts"]["stubborn"] = sum(1 for error in errors if error.get("status") == "stubborn")
+    errors = list(iter_jsonl(path / "errors.jsonl"))
+    counts = state.setdefault("counts", {})
+    counts["errors"] = len(errors)
+    counts["stubborn"] = sum(1 for error in errors if error.get("status") == "stubborn")
     state["updated_at"] = dt.date.today().isoformat()
     write_json(state_path, state)
     print(json.dumps(item, ensure_ascii=False))
@@ -151,9 +149,9 @@ def cmd_add_card(args) -> None:
     append_jsonl(path / "cards.jsonl", item)
     state_path = path / "state.json"
     state = read_json(state_path, {})
-    cards = list(iter_jsonl(path / "cards.jsonl") or [])
-    state.setdefault("counts", {})
-    state["counts"]["cards"] = len(cards)
+    cards = list(iter_jsonl(path / "cards.jsonl"))
+    counts = state.setdefault("counts", {})
+    counts["cards"] = len(cards)
     state["updated_at"] = dt.date.today().isoformat()
     write_json(state_path, state)
     print(json.dumps(item, ensure_ascii=False))
@@ -162,8 +160,8 @@ def cmd_add_card(args) -> None:
 def cmd_status(args) -> None:
     path = course_dir(args.course, args.root)
     state = read_json(path / "state.json", {})
-    errors = list(iter_jsonl(path / "errors.jsonl") or [])
-    cards = list(iter_jsonl(path / "cards.jsonl") or [])
+    errors = list(iter_jsonl(path / "errors.jsonl"))
+    cards = list(iter_jsonl(path / "cards.jsonl"))
     result = {
         "course": state.get("course", args.course),
         "stage": state.get("stage", "unknown"),
@@ -179,7 +177,7 @@ def cmd_summary(args) -> None:
     path = course_dir(args.course, args.root)
     state = read_json(path / "state.json", {})
     points = state.get("points", {})
-    errors = list(iter_jsonl(path / "errors.jsonl") or [])
+    errors = list(iter_jsonl(path / "errors.jsonl"))
     stubborn = [item for item in errors if item.get("status") == "stubborn"]
     must = {name: data for name, data in points.items() if data.get("level") == "must"}
     print(f"# {state.get('course', args.course)} 复习摘要")
