@@ -2,14 +2,14 @@
 
 Research date: 2026-06-07.
 
-## Upstream: liuliu667/cram-engine
+## Related Staged Exam-Prep Skill
 
 Observed structure:
 
 - `SKILL.md` orchestrates the workflow.
 - `stages/` contains four prompt files.
 - `configs/example.yaml` defines a course profile.
-- `~/.cram-engine/` stores user configs and progress.
+- A local course directory stores user configs and progress.
 - `.trae/rules/project_rules.md` adds Trae trigger support.
 
 Strengths:
@@ -39,7 +39,7 @@ OpenClaw and OpenCode docs confirm the shared `SKILL.md` folder model, but platf
 
 ## Design Response
 
-Pass All Exams keeps the cram-engine minimum viable behavior, then adds:
+Pass All Exams keeps the useful staged-study baseline, then adds:
 
 - compact default loop
 - evidence sections

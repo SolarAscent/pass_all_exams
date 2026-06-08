@@ -8,6 +8,12 @@ case "$agent" in
   codex)
     base="${CODEX_HOME:-$HOME/.codex}/skills"
     ;;
+  claude|claude-code|claudecode)
+    base="$HOME/.claude/skills"
+    ;;
+  claude-project|claude-code-project|claudecode-project)
+    base="$PWD/.claude/skills"
+    ;;
   openclaw)
     base="$HOME/.openclaw/skills"
     ;;
@@ -18,7 +24,7 @@ case "$agent" in
     base="$PWD/.opencode/skill"
     ;;
   *)
-    echo "usage: bash scripts/install.sh [codex|openclaw|opencode|opencode-project]" >&2
+    echo "usage: bash scripts/install.sh [codex|claude|claude-project|openclaw|opencode|opencode-project]" >&2
     exit 2
     ;;
 esac

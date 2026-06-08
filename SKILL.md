@@ -1,9 +1,9 @@
 ---
 name: pass-all-exams
-description: Use this skill for Chinese or bilingual exam prep, final review, cram sessions, course revision, mock tests, wrong-answer remediation, spaced review, or commands like /exam, /cram, pass all exams. It helps students turn course materials, syllabi, teacher重点, past papers, and exam types into a low-token, evidence-grounded study loop for Codex, OpenClaw, and OpenCode.
+description: Use this skill for Chinese or bilingual exam prep, final review, cram sessions, course revision, mock tests, wrong-answer remediation, spaced review, or commands like /exam, /cram, pass all exams. It helps students turn course materials, syllabi, teacher重点, past papers, and exam types into a low-token, evidence-grounded study loop for Codex, Claude Code, OpenClaw, and OpenCode.
 version: 0.1.0
 license: MIT
-compatibility: codex, openclaw, opencode
+compatibility: codex, claude-code, openclaw, opencode
 metadata:
   openclaw:
     requires:
@@ -15,7 +15,7 @@ metadata:
 
 # Pass All Exams
 
-Exam-prep skill for short, high-yield study sessions. It upgrades the cram-engine pattern with source grounding, machine-readable progress, spaced review, and cross-agent installation.
+Exam-prep skill for short, high-yield study sessions. It combines evidence labels, machine-readable progress, spaced review, and cross-agent installation.
 
 ## Commands
 

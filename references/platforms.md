@@ -18,6 +18,25 @@ git clone https://github.com/SolarAscent/pass_all_exams.git "$CODEX_HOME/skills/
 
 Codex also reads `agents/openai.yaml` for UI metadata.
 
+## Claude Code
+
+Claude Code discovers Agent Skills from:
+
+- personal: `~/.claude/skills/<name>/SKILL.md`
+- project: `.claude/skills/<name>/SKILL.md`
+
+Install globally:
+
+```bash
+git clone https://github.com/SolarAscent/pass_all_exams.git ~/.claude/skills/pass-all-exams
+```
+
+Install project-local:
+
+```bash
+git clone https://github.com/SolarAscent/pass_all_exams.git .claude/skills/pass-all-exams
+```
+
 ## OpenClaw
 
 OpenClaw/ClawHub accepts a folder with `SKILL.md` or `skill.md`. Frontmatter `description` is used for search, and runtime needs can be declared under `metadata.openclaw`.
@@ -54,6 +73,8 @@ From the repository root:
 
 ```bash
 bash scripts/install.sh codex
+bash scripts/install.sh claude
+bash scripts/install.sh claude-project
 bash scripts/install.sh openclaw
 bash scripts/install.sh opencode
 ```

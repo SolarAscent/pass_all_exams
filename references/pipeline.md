@@ -2,18 +2,18 @@
 
 This reference is loaded when running a real study session or editing the skill.
 
-## Design Improvements Over cram-engine
+## Architecture Notes
 
-Baseline retained:
+The skill is organized around a staged exam-prep loop:
 
-- staged flow instead of one giant system prompt
-- cognitive load control
+- staged flow instead of one giant prompt
+- cognitive load control through one-point sessions
 - concrete-first teaching
 - generation before answer reveal
 - retrieval practice and remediation
-- progress persistence
+- progress persistence through local state
 
-Improvements:
+Additional design choices:
 
 - evidence labels reduce hallucination and make weak sourcing visible
 - machine-readable `state.json`, `cards.jsonl`, and `errors.jsonl`

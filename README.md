@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <strong>Evidence-grounded exam prep for Codex, OpenClaw, and OpenCode.</strong>
+  <strong>Evidence-grounded exam prep for Codex, Claude Code, OpenClaw, and OpenCode.</strong>
 </p>
 
 <p align="center">
@@ -25,6 +25,7 @@
   <a href="https://github.com/SolarAscent/pass_all_exams/releases/tag/v0.1.0"><img src="https://img.shields.io/github/v/release/SolarAscent/pass_all_exams?style=flat-square&label=release&labelColor=111827&color=2563EB" alt="Latest release"/></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-16A34A?style=flat-square&labelColor=111827" alt="MIT license"/></a>
   <img src="https://img.shields.io/badge/Codex-supported-2563EB?style=flat-square&labelColor=111827" alt="Codex supported"/>
+  <img src="https://img.shields.io/badge/Claude%20Code-supported-D97706?style=flat-square&labelColor=111827" alt="Claude Code supported"/>
   <img src="https://img.shields.io/badge/OpenClaw-supported-0F766E?style=flat-square&labelColor=111827" alt="OpenClaw supported"/>
   <img src="https://img.shields.io/badge/OpenCode-supported-9333EA?style=flat-square&labelColor=111827" alt="OpenCode supported"/>
   <img src="https://img.shields.io/badge/token%20mode-compact-F59E0B?style=flat-square&labelColor=111827" alt="Compact token mode"/>
@@ -36,7 +37,7 @@
 
 Pass All Exams is an Agent Skill for students who need a practical review system, not another long pile of notes.
 
-It was designed after studying the useful core of `cram-engine`: staged exam prep, cognitive-load control, active recall, and wrong-answer repair. This project keeps that baseline, then adds stricter source labels, machine-readable progress, review cards, broader subject support, and lower-token defaults.
+Its architecture is built around six small stages: intake, mapping, teaching, drilling, repairing, and review scheduling. `SKILL.md` stays light so the agent can load quickly; detailed stage rules live in `references/`; deterministic local state is handled by `scripts/examctl.py`; install and packaging helpers keep the same workflow portable across supported agents.
 
 The default session is deliberately small:
 
@@ -51,7 +52,7 @@ Pass All Exams runs inside agent tools that can load a `SKILL.md` folder and fol
 | Tool | What it is | Official link |
 |---|---|---|
 | Codex | OpenAI's coding agent, available through ChatGPT and local developer workflows. | [openai.com/codex](https://openai.com/codex/) |
-| Claude Code | Anthropic's agentic coding assistant. The review workflow is portable, but this repo's installer targets Codex, OpenClaw, and OpenCode. | [Claude Code docs](https://code.claude.com/docs/en/overview) |
+| Claude Code | Anthropic's agentic coding assistant. Personal skills live in `~/.claude/skills`; project skills live in `.claude/skills`. | [Claude Code docs](https://code.claude.com/docs/en/overview) |
 | OpenClaw | An open agent platform with a skill system built around `SKILL.md`. | [docs.openclaw.ai](https://docs.openclaw.ai/) |
 | OpenCode | A terminal coding agent that discovers project and global Agent Skills. | [opencode.ai/docs](https://opencode.ai/docs/) |
 
@@ -81,6 +82,8 @@ Then install for your agent:
 | Agent | Command |
 |---|---|
 | Codex | `bash scripts/install.sh codex` |
+| Claude Code, global | `bash scripts/install.sh claude` |
+| Claude Code, current project only | `bash scripts/install.sh claude-project` |
 | OpenClaw | `bash scripts/install.sh openclaw` |
 | OpenCode, global | `bash scripts/install.sh opencode` |
 | OpenCode, current project only | `bash scripts/install.sh opencode-project` |
@@ -95,6 +98,12 @@ git clone https://github.com/SolarAscent/pass_all_exams.git ~/.codex/skills/pass
 
 # Codex with CODEX_HOME
 git clone https://github.com/SolarAscent/pass_all_exams.git "$CODEX_HOME/skills/pass-all-exams"
+
+# Claude Code global
+git clone https://github.com/SolarAscent/pass_all_exams.git ~/.claude/skills/pass-all-exams
+
+# Claude Code project-local
+git clone https://github.com/SolarAscent/pass_all_exams.git .claude/skills/pass-all-exams
 
 # OpenClaw
 git clone https://github.com/SolarAscent/pass_all_exams.git ~/.openclaw/skills/pass-all-exams
@@ -284,7 +293,7 @@ pass_all_exams/
 ├── references/
 │   ├── pipeline.md             # detailed review workflow
 │   ├── prompt-patterns.md      # reusable prompt shapes
-│   ├── platforms.md            # Codex/OpenClaw/OpenCode notes
+│   ├── platforms.md            # Codex/Claude Code/OpenClaw/OpenCode notes
 │   └── comparison.md           # design notes from related projects
 ├── scripts/
 │   ├── examctl.py              # deterministic course state helper

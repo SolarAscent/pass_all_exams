@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <strong>面向 Codex、OpenClaw、OpenCode 的证据化考试复习 Skill。</strong>
+  <strong>面向 Codex、Claude Code、OpenClaw、OpenCode 的证据化考试复习 Skill。</strong>
 </p>
 
 <p align="center">
@@ -25,6 +25,7 @@
   <a href="https://github.com/SolarAscent/pass_all_exams/releases/tag/v0.1.0"><img src="https://img.shields.io/github/v/release/SolarAscent/pass_all_exams?style=flat-square&label=release&labelColor=111827&color=2563EB" alt="Latest release"/></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-16A34A?style=flat-square&labelColor=111827" alt="MIT license"/></a>
   <img src="https://img.shields.io/badge/Codex-supported-2563EB?style=flat-square&labelColor=111827" alt="Codex supported"/>
+  <img src="https://img.shields.io/badge/Claude%20Code-supported-D97706?style=flat-square&labelColor=111827" alt="Claude Code supported"/>
   <img src="https://img.shields.io/badge/OpenClaw-supported-0F766E?style=flat-square&labelColor=111827" alt="OpenClaw supported"/>
   <img src="https://img.shields.io/badge/OpenCode-supported-9333EA?style=flat-square&labelColor=111827" alt="OpenCode supported"/>
   <img src="https://img.shields.io/badge/token%20mode-compact-F59E0B?style=flat-square&labelColor=111827" alt="Compact token mode"/>
@@ -42,7 +43,7 @@ Pass All Exams 不是“让 AI 帮你生成一份超长复习资料”。它更�
 一门课 -> 一个高价值考点 -> 一段短讲解 -> 一道检索题 -> 一次修正或一张复盘卡
 ```
 
-这个项目保留了 `cram-engine` 中最有效的部分：分阶段推进、控制认知负荷、主动回忆、错题补漏。在此基础上，它增加了资料依据标注、机器可读进度、间隔复习卡、理工/编程/语言类课程支持，以及更省 token 的默认模式。
+它的架构分成六个小阶段：建档、拆解、讲授、检题、补漏、复盘。`SKILL.md` 只保留必要入口，让智能体快速加载；详细阶段规则放在 `references/`；本地进度由 `scripts/examctl.py` 管理；安装和打包脚本负责把同一套流程分发到不同智能体里。
 
 ## 如果你还不了解 Agent Skill
 
@@ -53,7 +54,7 @@ Pass All Exams 运行在支持 `SKILL.md` 的智能体工具里。简单说，Sk
 | 工具 | 简单说明 | 官网 |
 |---|---|---|
 | Codex | OpenAI 的编程智能体，可在 ChatGPT 和本地开发流程中使用。 | [openai.com/codex](https://openai.com/codex/) |
-| Claude Code | Anthropic 的命令行编程智能体。本项目的复习流程可迁移，但安装脚本目前主要适配 Codex、OpenClaw、OpenCode。 | [Claude Code Docs](https://code.claude.com/docs/en/overview) |
+| Claude Code | Anthropic 的命令行编程智能体。个人 skill 放在 `~/.claude/skills`，项目级 skill 放在 `.claude/skills`。 | [Claude Code Docs](https://code.claude.com/docs/en/overview) |
 | OpenClaw | 支持 Skill 机制的开放智能体平台，Skill 以 `SKILL.md` 为核心。 | [docs.openclaw.ai](https://docs.openclaw.ai/) |
 | OpenCode | 终端里的编程智能体，支持从项目目录或全局目录加载 Agent Skills。 | [opencode.ai/docs](https://opencode.ai/docs/) |
 
@@ -83,6 +84,8 @@ cd pass_all_exams
 | 智能体 | 命令 |
 |---|---|
 | Codex | `bash scripts/install.sh codex` |
+| Claude Code，全局 | `bash scripts/install.sh claude` |
+| Claude Code，仅当前项目 | `bash scripts/install.sh claude-project` |
 | OpenClaw | `bash scripts/install.sh openclaw` |
 | OpenCode，全局 | `bash scripts/install.sh opencode` |
 | OpenCode，仅当前项目 | `bash scripts/install.sh opencode-project` |
@@ -95,6 +98,12 @@ git clone https://github.com/SolarAscent/pass_all_exams.git ~/.codex/skills/pass
 
 # Codex，使用 CODEX_HOME 时
 git clone https://github.com/SolarAscent/pass_all_exams.git "$CODEX_HOME/skills/pass-all-exams"
+
+# Claude Code 全局
+git clone https://github.com/SolarAscent/pass_all_exams.git ~/.claude/skills/pass-all-exams
+
+# Claude Code 当前项目
+git clone https://github.com/SolarAscent/pass_all_exams.git .claude/skills/pass-all-exams
 
 # OpenClaw
 git clone https://github.com/SolarAscent/pass_all_exams.git ~/.openclaw/skills/pass-all-exams
@@ -279,7 +288,7 @@ pass_all_exams/
 ├── references/
 │   ├── pipeline.md             # 详细复习流程
 │   ├── prompt-patterns.md      # 可复用提示模板
-│   ├── platforms.md            # Codex/OpenClaw/OpenCode 安装说明
+│   ├── platforms.md            # Codex/Claude Code/OpenClaw/OpenCode 安装说明
 │   └── comparison.md           # 设计对比说明
 ├── scripts/
 │   ├── examctl.py              # 本地进度管理
