@@ -1,5 +1,15 @@
 # Project Check
 
+## 3.0.0 - 2026-08-14
+
+Release validation:
+
+- Version metadata and release links were synchronized for v3.0.0.
+- `python3 scripts/validate_skill.py` passed.
+- `python3 -m py_compile scripts/examctl.py scripts/ingest_materials.py scripts/validate_skill.py scripts/package_skill.py` passed.
+- `git diff --check` passed.
+- `.skill` package was rebuilt and its embedded `SKILL.md` version was verified as 3.0.0.
+
 ## 2.0.0 - 2026-06-08
 
 Environment used for MarkItDown validation:

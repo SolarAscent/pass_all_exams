@@ -1,7 +1,7 @@
 ---
 name: pass-all-exams
 description: Use this skill for Chinese or bilingual exam prep, final review, file-based course material ingestion, uploaded PDFs/Word/PPT/Excel conversion, cram sessions, course revision, mock tests, wrong-answer remediation, spaced review, or commands like /exam, /cram, pass all exams. It helps students turn course materials, syllabi, teacher重点, past papers, and exam types into a low-token, evidence-grounded study loop for Codex, Claude Code, OpenClaw, and OpenCode.
-version: 2.0.0
+version: 3.0.0
 license: MIT
 compatibility: codex, claude-code, openclaw, opencode
 metadata:

@@ -22,7 +22,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/SolarAscent/pass_all_exams/releases/tag/v2.0.0"><img src="https://img.shields.io/github/v/release/SolarAscent/pass_all_exams?style=flat-square&label=release&labelColor=111827&color=2563EB" alt="Latest release"/></a>
+  <a href="https://github.com/SolarAscent/pass_all_exams/releases/tag/v3.0.0"><img src="https://img.shields.io/github/v/release/SolarAscent/pass_all_exams?style=flat-square&label=release&labelColor=111827&color=2563EB" alt="Latest release"/></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-16A34A?style=flat-square&labelColor=111827" alt="MIT license"/></a>
   <img src="https://img.shields.io/badge/Codex-supported-2563EB?style=flat-square&labelColor=111827" alt="Codex supported"/>
   <img src="https://img.shields.io/badge/Claude%20Code-supported-D97706?style=flat-square&labelColor=111827" alt="Claude Code supported"/>
@@ -147,7 +147,7 @@ git clone https://github.com/SolarAscent/pass_all_exams.git .opencode/skill/pass
 Download the release asset:
 
 ```text
-https://github.com/SolarAscent/pass_all_exams/releases/download/v2.0.0/pass-all-exams.skill
+https://github.com/SolarAscent/pass_all_exams/releases/download/v3.0.0/pass-all-exams.skill
 ```
 
 Use this when your agent or UI supports uploading skill archives.

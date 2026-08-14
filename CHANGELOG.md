@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.0 - 2026-08-14
+
+- Synchronized the skill version metadata and release links for the v3.0.0 refresh.
+- Rebuilt the uploadable `pass-all-exams.skill` package.
+
 ## 2.0.0 - 2026-06-08
 
 - Added Microsoft MarkItDown-powered material ingestion for uploaded course files.
